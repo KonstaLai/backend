@@ -22,3 +22,30 @@ This is a task management web application built using Node.js and Express with M
 - EJS (server-side rendering)
 - Passport.js (authentication)
 - Express-validator (input validation)
+
+
+
+#  Installation
+
+git clone https://github.com/KonstaLai/backend.git
+
+cd backend
+
+
+
+## Install dependencies
+
+npm install
+
+or
+
+yarn install
+
+
+## Running the App
+
+npm run dev
+
+or
+
+yarn dev
