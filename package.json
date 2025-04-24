@@ -1,12 +1,15 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "This is a task management web application built using Node.js and Express with MongoDB for data storage. It allows users to manage their daily tasks with features like create, read, update, and delete (CRUD) functionality.",
+  "description": "A web application designed to help students and staff easily report and recover lost or found items on campus. This project follows accessibility best practices and is built with **Node.js**, **Express**, **MongoDB**, and **express-handlebars**, with full CRUD functionality, and a responsive, user-friendly interface.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "postcss public/css/style.css -o public/css/style.min.css",
+    "build:js": "terser public/js/script.js -o public/js/script.min.js"
   },
   "repository": {
     "type": "git",
@@ -21,15 +24,17 @@
   },
   "homepage": "https://github.com/KonstaLai/backend#readme",
   "dependencies": {
-    "connect-mongo": "^5.1.0",
-    "ejs": "^3.1.10",
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
-    "mongo-express": "^1.1.0-rc-3",
-    "mongoose": "^8.13.2",
-    "nodemon": "^3.1.9",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "method-override": "^3.0.0",
+    "mongoose": "^8.13.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

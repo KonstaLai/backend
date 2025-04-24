@@ -1,26 +1,38 @@
-# Task Manager App
+# Lost & Found -Campus Web App
 
-This is a task management web application built using Node.js and Express with MongoDB for data storage. It allows users to manage their daily tasks with features like create, read, update, and delete (CRUD) functionality.
+A web application designed to help students and staff easily report and recover lost or found items on campus. This project follows accessibility best practices and is built with **Node.js**, **Express**, **MongoDB**, and **express-handlebars**, with full CRUD functionality, and a responsive, user-friendly interface.
 
 ## Features
 
-- User-friendly task dashboard
-- Create, edit, delete tasks
-- Mark tasks as done
-- Admin area to manage all tasks
-- RESTful API to interact with tasks
-- MongoDB database integration
-- Authentication using Passport.js
-- Input validation using express-validator
-- API endpoint documentation available on frontend page
+### Item Management (CRUD)
+- Create, read, update, and delete listings for lost or found items
+- Include item name, description, photo upload, location, and date
+
+###  Authentication & Roles
+- User registration and login
+- Role-based access control:
+  - Regular users: post and claim items
+  - Admins: moderate, verify, or remove any entry
+
+###  Search & Filter
+- Keyword search for items
+- Filter by category (e.g., electronics, books, clothing)
+- Filter by status (Lost or Found)
+
+## Accessibility
+- Semantic HTML5 structure for assistive technologies
+- ARIA roles and live regions for dynamic content 
+- Keyboard-navigable UI with clear focus indicators
+- Screen reader testing (NVDA)
+
 
 ## Tech Stack
 
 - Node.js
 - Express.js
 - MongoDB + Mongoose
-- EJS (server-side rendering)
-- Passport.js (authentication)
+- Express-Handlebars (server-side rendering)
+- express-session (authentication)
 - Express-validator (input validation)
 
 
