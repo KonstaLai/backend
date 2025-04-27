@@ -5,6 +5,12 @@ const session = require("express-session");
 
 const exphbs = require("express-handlebars");
 
+
+
+//import routes and middlewares
+const setupSession = require("./middlewares/sessions");
+
+
 const app = express();
 
 app.engine(
@@ -20,6 +26,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+//session middleware
+setupSession(app);
+
+
+//Routes
+const adminRoutes = require("./routes/admin");
+
+
+
 
 const dbURI = `mongodb+srv://${process.env.DBUSERNAME}:${process.env.DBPASSWORD}@${process.env.CLUSTER}.mongodb.net/${process.env.DB}?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -30,7 +45,7 @@ mongoose
   .then((result) => {
     console.log("Connected to the database");
     app.listen(process.env.PORT, () => {
-      console.log(`Server is running on port: ${process.env.PORT}`);
+      console.log(`Server is running on: http://localhost:${process.env.PORT}`);
     });
   })
   .catch((err) => {
@@ -38,6 +53,6 @@ mongoose
   });
 
 
-  app.get("/", (req, res) => {
-    res.send("Welcome to the Lost and Found App");
-  });
+
+//use routes
+app.use("/admin", adminRoutes);
