@@ -9,7 +9,7 @@ router.get("/", isAuthenticated, isAdmin, async (req, res) => {
     const items = item.find();
 
     //view all items in the admin page
-    res.render("admindashboard", {
+    res.render("home", {
       items: items,
     });
   } catch (err) {
@@ -34,9 +34,45 @@ router.post("/items/add", isAuthenticated, isAdmin, async (req, res) => {
       contactPerson: req.user._id,
     });
     await newItem.save();
-    res.redirect("/items");
+    res.redirect("/items");// show all items after adding a new one
   } catch (err) {
     console.error("Error adding item:", err);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+});
+
+// Admin update item
+router.post("/items/update/:id", isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const { name, description, category, location, status, image } = req.body;
+    const itemId = req.params.id;
+    await item.findByIdAndUpdate(itemId, {
+      name,
+      description,
+      category,
+      location,
+      status,
+      image,
+    });
+    res.redirect("/items");// show all items after updating
+  } catch (err) {
+    console.error("Error updating item:", err);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+});
+
+// Admin delete item
+router.post("/items/delete/:id", isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    await item.findByIdAndDelete(itemId);
+    res.redirect("/items");// show all items after deleting
+  } catch (err) {
+    console.error("Error deleting item:", err);
     res.status(500).json({
       error: "Internal Server Error",
     });

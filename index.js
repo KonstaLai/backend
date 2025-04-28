@@ -35,6 +35,9 @@ const adminRoutes = require("./routes/admin");
 
 
 
+// use routes
+app.use("/admin", adminRoutes);
+
 
 const dbURI = `mongodb+srv://${process.env.DBUSERNAME}:${process.env.DBPASSWORD}@${process.env.CLUSTER}.mongodb.net/${process.env.DB}?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -54,5 +57,14 @@ mongoose
 
 
   app.get("/", (req, res) => {
-    res.send("Welcome to the Lost and Found App");
+    res.render("home", { layout: "main" });
+  });
+
+  app.get("/login", (req, res) => {
+    res.render("login", { layout: "main" });
+  }
+
+  );
+  app.get("/register", (req, res) => {
+    res.render("register", { layout: "main" });
   });
