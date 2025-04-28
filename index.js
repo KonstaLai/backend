@@ -30,18 +30,23 @@ mongoose
   .then((result) => {
     console.log("Connected to the database");
     app.listen(process.env.PORT, () => {
-      console.log(`Server is running on port: ${process.env.PORT}`);
+      console.log(`http://localhost:${process.env.PORT}`);
     });
   })
   .catch((err) => {
     console.log(err);
   });
 
+//render home - direct route handlers
+app.get("/", (req, res) => {
+  res.render("home")
+});
 
-  app.get("/", (req, res) => {
-    res.send("Welcome to the Lost and Found App");
-  });
-
-  app.get("/lostandfound", (req, res) => {
-    res.render("lostandfound")
-  });
+//render login
+app.get("/login", (req, res) => {
+  res.render("login")
+});
+//render register
+app.get("/register", (req, res) => {
+  res.render("register")
+})
