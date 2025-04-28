@@ -1,0 +1,267 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    background-color: #F7F7F9;
+    color: #000000;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Navigation */
+.navbar {
+    background-color: #388697;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.nav-item {
+    margin-left: 1rem;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #ddd;
+}
+
+/*Content */
+.content-p {
+    margin: 1rem;
+    font-size: 1.5rem;
+}
+
+.register-btn {
+    background-color: #388697;
+    padding: 0.8rem 0.5rem;
+    color: #F7F7F9;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    margin-right: 0.5rem;
+}
+
+.register-btn:hover {
+    background-color: #2c6d7a;
+    color: #ffffff;
+}
+
+.login-btn {
+    background-color: #F7F7F9;
+    border-color: #388697;
+    border-style: solid;
+    padding: 0.8rem 1rem;
+    color: #388697;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 15px;
+    margin-left: 0.5rem;
+}
+
+.login-btn:hover {
+    background-color: #e6e6e6;
+    color: #2c6d7a;
+}
+
+
+
+/* Forms */
+.form-container {
+    max-width: 30rem;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    background: #388697;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: #388697;
+}
+
+.btn-primary:hover {
+    background: #3a5a9b;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Alerts */
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Cards */
+.column {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+.text-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #2f8c9e;
+}
+
+footer {
+    margin-top: auto;
+    /* Push footer to bottom */
+    padding: 1rem 0;
+    background-color: #2f8c9e;
+    /* Your teal color */
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+/* Feedback */
+.feedback {
+    font-style: italic;
+}
+
+.blockquote-footer {
+    font-style: normal;
+}
