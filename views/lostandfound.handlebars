@@ -1,0 +1,54 @@
+<div class="simple-form-container">
+    <h2>Report Item</h2>
+
+    
+    {{#if error}}
+      <div class="simple-message error" style="display: block;">
+        {{error}}
+      </div>
+    {{/if}}
+
+    {{!-- Will work on this to point to route and save items--}}
+    <form id="simpleLostItemForm" action="/items" method="POST"> {{!-- POST /items this should be able to save the report later on--}}
+
+        <div class="simple-form-group">
+            <label for="itemName">Item Name:</label>
+            {{!-- 'name' attribute must match the backend field --}}
+            <input type="text" id="itemName" name="itemName" value="{{formData.itemName}}" required>
+        </div>
+
+        <div class="simple-form-group">
+            
+            <label for="locationLost">Location Lost/Found:</label>
+            <input type="text" id="locationLost" name="locationLost" value="{{formData.locationLost}}" required>
+        </div>
+
+         <div class="simple-form-group">
+            <label for="description">Brief Description (Optional):</label>
+            <textarea id="description" name="description" rows="3">{{formData.description}}</textarea>
+        </div>
+
+        <div class="simple-form-group">
+            
+            <label for="contactName">Your Name (Reporter):</label>
+            <input type="text" id="contactName" name="contactName" value="{{formData.contactName}}" required>
+        </div>
+
+        {{!-- did this with radio buttons so we can have ony one page for both lost and found--}}
+        <div class="simple-form-group">
+            <label>Status:</label> 
+            <div class="radio-group">
+                 <input type="radio" id="status-lost" name="status" value="lost" required checked> 
+                 <label for="status-lost">Lost</label>
+
+                 
+                 <input type="radio" id="status-found" name="status" value="found" required>
+                 <label for="status-found">Found</label>       
+            </div>
+        </div>
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+    
+</div>

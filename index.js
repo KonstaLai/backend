@@ -41,3 +41,7 @@ mongoose
   app.get("/", (req, res) => {
     res.send("Welcome to the Lost and Found App");
   });
+
+  app.get("/lostandfound", (req, res) => {
+    res.render("lostandfound")
+  });
