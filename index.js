@@ -45,7 +45,7 @@ mongoose
   .then((result) => {
     console.log("Connected to the database");
     app.listen(process.env.PORT, () => {
-      console.log(`Server is running on: http://localhost:${process.env.PORT}`);
+      console.log(`http://localhost:${process.env.PORT}`);
     });
   })
   .catch((err) => {
@@ -53,6 +53,6 @@ mongoose
   });
 
 
-
-//use routes
-app.use("/admin", adminRoutes);
+  app.get("/", (req, res) => {
+    res.send("Welcome to the Lost and Found App");
+  });
