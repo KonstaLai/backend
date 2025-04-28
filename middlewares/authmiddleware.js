@@ -7,7 +7,7 @@ const isAuthenticated = (req, res, next) => {
         }
         res.redirect('/login');
     } catch (error) {
-        console.error("Error in isLoggedIn middleware:", error);
+        console.error("Error in isAuthenticated middleware:", error);
         res.status(500).send("Internal Server Error");
     }
 }
