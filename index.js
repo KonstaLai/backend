@@ -50,3 +50,7 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register")
 })
+//render lost-found
+app.get("/lostandfound", (req, res) => {
+  res.render("lostandfound")
+});
