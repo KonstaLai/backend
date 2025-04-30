@@ -5,6 +5,12 @@ const session = require("express-session");
 
 const exphbs = require("express-handlebars");
 
+
+
+//import routes and middlewares
+const setupSession = require("./middlewares/sessions");
+
+
 const app = express();
 
 app.engine(
@@ -18,6 +24,21 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+//session middleware
+setupSession(app);
+
+
+//Routes
+const adminRoutes = require("./routes/admin");
+const homeRoutes = require("./routes/home");
+
+
+
+// use routes
+app.use("/admin", adminRoutes);
+app.use("/", homeRoutes);
 
 
 
@@ -37,16 +58,3 @@ mongoose
     console.log(err);
   });
 
-//render home - direct route handlers
-app.get("/", (req, res) => {
-  res.render("home")
-});
-
-//render login
-app.get("/login", (req, res) => {
-  res.render("login")
-});
-//render register
-app.get("/register", (req, res) => {
-  res.render("register")
-})
