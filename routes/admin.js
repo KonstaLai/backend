@@ -1,16 +1,17 @@
 const { isAuthenticated, isAdmin } = require("../middlewares/authmiddleware");
 const express = require("express");
 const router = express.Router();
-const item = require("../models/item");
+const item = require("../models/Item");
 
 // GET admin page/dashboard
-router.get("/", isAuthenticated, isAdmin, async (req, res) => {
+router.get("/found", async (req, res) => {
   try {
-    const items = item.find();
+    const Item = await item.find();
 
     //view all items in the admin page
-    res.render("home", {
-      items: items,
+    res.render("dashboard", {
+      title: "Admin Dashboard",
+      items: Item,
     });
   } catch (err) {
     console.error("Error rendering page:", err);
@@ -34,7 +35,7 @@ router.post("/items/add", isAuthenticated, isAdmin, async (req, res) => {
       contactPerson: req.user._id,
     });
     await newItem.save();
-    res.redirect("/items");// show all items after adding a new one
+    res.redirect("/items"); // show all items after adding a new one
   } catch (err) {
     console.error("Error adding item:", err);
     res.status(500).json({
@@ -56,7 +57,7 @@ router.post("/items/update/:id", isAuthenticated, isAdmin, async (req, res) => {
       status,
       image,
     });
-    res.redirect("/items");// show all items after updating
+    res.redirect("/items"); // show all items after updating
   } catch (err) {
     console.error("Error updating item:", err);
     res.status(500).json({
@@ -70,7 +71,7 @@ router.post("/items/delete/:id", isAuthenticated, isAdmin, async (req, res) => {
   try {
     const itemId = req.params.id;
     await item.findByIdAndDelete(itemId);
-    res.redirect("/items");// show all items after deleting
+    res.redirect("/items"); // show all items after deleting
   } catch (err) {
     console.error("Error deleting item:", err);
     res.status(500).json({
@@ -78,9 +79,5 @@ router.post("/items/delete/:id", isAuthenticated, isAdmin, async (req, res) => {
     });
   }
 });
-
-
-
-
 
 module.exports = router;

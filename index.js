@@ -32,11 +32,14 @@ setupSession(app);
 
 //Routes
 const adminRoutes = require("./routes/admin");
+const homeRoutes = require("./routes/home");
 
 
 
 // use routes
 app.use("/admin", adminRoutes);
+app.use("/", homeRoutes);
+
 
 
 const dbURI = `mongodb+srv://${process.env.DBUSERNAME}:${process.env.DBPASSWORD}@${process.env.CLUSTER}.mongodb.net/${process.env.DB}?retryWrites=true&w=majority&appName=Cluster0`;
@@ -55,16 +58,3 @@ mongoose
     console.log(err);
   });
 
-
-  app.get("/", (req, res) => {
-    res.render("home", { layout: "main" });
-  });
-
-  app.get("/login", (req, res) => {
-    res.render("login", { layout: "main" });
-  }
-
-  );
-  app.get("/register", (req, res) => {
-    res.render("register", { layout: "main" });
-  });
