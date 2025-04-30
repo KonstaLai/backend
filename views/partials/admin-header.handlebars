@@ -1,0 +1,36 @@
+<header class="admin-header">
+  <nav class="admin-nav">
+    <div class="nav-container">
+      <a href="/admin/" class="admin-brand">Lost & Found Admin</a>
+      
+      <div class="search-container">
+        <form action="/admin" method="GET" class="search-form">
+          <input 
+            type="text" 
+            name="search" 
+            placeholder="Search items..." 
+            value="{{searchQuery}}"
+            class="search-input"
+          >
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+          {{#if searchQuery}}
+          <a href="/admin" class="clear-search">
+            <i class="fas fa-times"></i>
+          </a>
+          {{/if}}
+        </form>
+      </div>
+      
+      <div class="admin-nav-links">
+        <a href="/admin/items/add" class="nav-link">
+          <i class="fas fa-plus"></i> Add Item
+        </a>
+        <a href="/logout" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
