@@ -7,7 +7,7 @@ const exphbs = require("express-handlebars");
 
 
 
-//import routes and middlewares
+//importing routes and middlewares
 const setupSession = require("./middlewares/sessions");
 
 
@@ -89,7 +89,7 @@ app.get("/lostandfound", (req, res) => {
 
 app.post('/items', async (req, res) => {
   try {
-      // 1. Check if the user is logged in
+      // 1. To check if user is logged in
       if (!req.session.userId) {
           return res.status(401).send('You must be logged in to report a lost/found item.');
       }
@@ -107,13 +107,13 @@ app.post('/items', async (req, res) => {
           contactPerson: userId,
       });
 
-      // 4. Save the Item to the database
+      // 4. Save to db
       await newItem.save();
 
       // 5.  Redirect to a success page or send a message
       console.log('Item saved:', newItem);
       res.redirect('/lost-items'); //  Redirect to the page that displays lost items
-     // res.status(201).json({ message: 'Item reported successfully' });  //alternative
+     
 
   } catch (error) {
       // 6. Handle errors
@@ -125,8 +125,8 @@ app.post('/items', async (req, res) => {
 
 
 
-const Item = require('./models/Item'); // Import the Item model
-const path = require('path'); // Import the path module
+const Item = require('./models/Item'); 
+const path = require('path'); 
 
 app.get('/lost-items', async (req, res) => {
     try {
@@ -137,8 +137,7 @@ app.get('/lost-items', async (req, res) => {
 
         // 2. Render a Handlebars template to display the items
         res.render('lost-items', { lostItems });  //original line
-        // const viewPath = path.join(__dirname, 'views', 'lost-items'); //removed this line
-        // res.render(viewPath, {lostItems});
+        
 
     } catch (error) {
         // 3. Handle errors

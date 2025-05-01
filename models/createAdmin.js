@@ -1,32 +1,30 @@
-// createAdmin.js
-// Standalone script to create an initial admin user in the database.
-// IMPORTANT: This script assumes it is located inside the 'models' folder.
-// Run this script once using 'node models/createAdmin.js' from the 'backend' directory.
+// This is a standalone script to create an admin user in the database if needed
+// 
 
-// --- Dependencies ---
-require('dotenv').config({ path: '../.env' }); // Load .env from parent directory
+
+
+require('dotenv').config({ path: '../.env' }); // Load .env 
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs'); // Ensure this matches the bcrypt library used in your main app
-const User = require('./User'); // *** FIXED: Correct path to User model in the same directory ***
+const bcrypt = require('bcryptjs'); 
+const User = require('./User'); 
 
-// --- Configuration ---
-// Set the desired credentials for your initial admin account
-const ADMIN_USERNAME = 'admin'; // Or choose a different admin username
-const ADMIN_EMAIL = 'admin@example.com'; // Use a valid email
-const ADMIN_PASSWORD = 'admin1234'; // *** CHANGE THIS TO A SECURE PASSWORD ***
-// --- End Configuration ---
+//config for admin credentials
+const ADMIN_USERNAME = 'admin'; 
+const ADMIN_EMAIL = 'admin@example.com'; 
+const ADMIN_PASSWORD = 'admin1234'; 
 
-// --- Database Connection ---
+
+// db conn
 const dbURI = process.env.MONGO_URI;
 
-// Validate database connection string
+// this is to validate connection
 if (!dbURI) {
     console.error('❌ Error: MONGO_URI environment variable not found in your .env file.');
     console.error('Please ensure your .env file is correctly set up in the parent directory.');
-    process.exit(1); // Exit script with an error code
+    process.exit(1); // will exit with error code
 }
 
-// Function to establish database connection
+// establishing connection and inform the script user
 async function connectDB() {
     try {
         await mongoose.connect(dbURI);
@@ -37,31 +35,29 @@ async function connectDB() {
     }
 }
 
-// --- Main Function to Create Admin User ---
+// this is the main fucntion to create the admin user
 async function createAdminUser() {
     try {
-        // 1. Check if an admin user already exists (by unique username or email)
+        // 1. checkinf if already exists
         const existingAdmin = await User.findOne({
             $or: [{ username: ADMIN_USERNAME }, { email: ADMIN_EMAIL }]
         });
 
         if (existingAdmin) {
             console.warn(`⚠️ Admin user already exists (Username: '${existingAdmin.username}', Email: '${existingAdmin.email}'). No action taken.`);
-            return; // Exit the function if admin already exists
+            return; // will exit if exists
         }
 
-        // 2. Prepare the new admin user object
-        // Note: The password is intentionally passed as plain text here.
-        // The 'pre-save' hook defined in the User model (User.js)
-        // is responsible for hashing it before it's saved to the database.
+        
+        // 2. Prepares the admin user object, pw is intentionally as plain text because the user.js should be responsible in hashing
         const adminUser = new User({
             username: ADMIN_USERNAME,
             email: ADMIN_EMAIL,
             password: ADMIN_PASSWORD,
-            role: 'admin' // Explicitly set the role
+            role: 'admin' // this force sets the role
         });
 
-        // 3. Save the new admin user to the database (triggers hashing)
+        // 3. this will save the user to db
         await adminUser.save();
         console.log('------------------------------------------');
         console.log('✅ Admin user created successfully!');
@@ -74,19 +70,18 @@ async function createAdminUser() {
     } catch (error) {
         console.error('❌ Error occurred while creating admin user:', error);
     } finally {
-        // 4. Ensure the database connection is closed gracefully
+        // 4. will confirm that connection is closed
         try {
             await mongoose.connection.close();
             console.log('🔌 MongoDB connection closed.');
         } catch (closeErr) {
             console.error('❌ Error closing MongoDB connection:', closeErr);
         }
-        process.exit(0); // Exit the script
+        process.exit(0); // exits
     }
 }
 
-// --- Script Execution ---
-// Connect to the database first, then attempt to create the admin user.
+
 connectDB().then(() => {
     createAdminUser();
 });

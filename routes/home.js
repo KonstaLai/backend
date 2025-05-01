@@ -1,29 +1,27 @@
-// routes/home.js
 
-// --- Dependencies ---
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Ensure path is correct
-const bcrypt = require('bcryptjs');    // Ensure this matches the library used in your User model
-const { isAuthenticated } = require('../middlewares/authmiddleware'); // Import middleware if needed for other routes here
+const User = require('../models/User'); 
+const bcrypt = require('bcryptjs');    
+const { isAuthenticated } = require('../middlewares/authmiddleware'); 
 
-// --- Routes ---
 
-// GET / (Home Page)
+
+
 router.get('/', (req, res) => {
-    // Redirect logged-in users away from the generic home page if desired
+    
     if (req.session.userId) {
         // Redirect based on role stored in session, or to a generic dashboard
         if (req.session.user && req.session.user.role === 'admin') {
-             // You might want admins to go directly to their dashboard too
-             return res.redirect('/admin/found'); // Or '/admin/' or '/admin/dashboard'
+             // admins go directly to their dashboard
+             return res.redirect('/dashboard'); 
         } else {
-             // Regular users could go to their specific starting page
-             return res.redirect('/lost-items'); // Or '/dashboard' if you have a user one
+             // regular users go to lostitems page
+             return res.redirect('/lost-items'); 
         }
     }
-    // Render home page for logged-out users
-    res.render('home');
+    // this gives logged ou users a home page
+    res.render('login');
 });
 
 // GET /login (Login Page)
@@ -32,9 +30,9 @@ router.get('/login', (req, res) => {
     if (req.session.userId) {
         // Redirect logic similar to GET /
         if (req.session.user && req.session.user.role === 'admin') {
-             return res.redirect('/admin/found'); // Or appropriate admin page
+             return res.redirect('/dashboard'); // admin direct
         } else {
-             return res.redirect('/lost-items'); // Or appropriate user page
+             return res.redirect('/lost-items'); //user page direct
         }
     }
     // Render login page for logged-out users
@@ -43,20 +41,20 @@ router.get('/login', (req, res) => {
 
 // GET /register (Registration Page)
 router.get('/register', (req, res) => {
-    // If user is already logged in, redirect them away from register page
+    // if log in direct away
    if (req.session.userId) {
-        // Redirect logic similar to GET /
+        
         if (req.session.user && req.session.user.role === 'admin') {
-             return res.redirect('/admin/found'); // Or appropriate admin page
+             return res.redirect('/dashboard'); // admin direct
         } else {
-             return res.redirect('/lost-items'); // Or appropriate user page
+             return res.redirect('/lost-items'); // user page direct
         }
     }
-   // Render register page for logged-out users
-   res.render('register', { errors: null, username: '', email: '' });
+   // rRender login page for logged out
+   res.render('/login', { errors: null, username: '', email: '' });
 });
 
-// POST /register (Handle Registration Submission)
+// POST /register 
 router.post('/register', async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
     let errors = [];
@@ -71,13 +69,13 @@ router.post('/register', async (req, res) => {
     if (password && password.length < 6) {
         errors.push({ msg: 'Password must be at least 6 characters.' });
     }
-    // Add more validation if needed (e.g., email format)
+    
 
     if (errors.length > 0) {
         return res.status(400).render('register', { errors, username, email });
     }
 
-    // --- Registration Logic ---
+    // --- logic for registration
     try {
         const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }] });
         if (existingUser) {
@@ -85,13 +83,12 @@ router.post('/register', async (req, res) => {
             return res.status(400).render('register', { errors, username, email });
         }
 
-        // Create new user (role defaults to 'user' based on your model)
+        // creates a new user and defaults role to user
         const newUser = new User({ username, email, password });
-        await newUser.save(); // Triggers pre-save hook for hashing
+        await newUser.save(); // hook for hashing
 
         console.log('User registered successfully:', newUser.username);
-        // Optionally add flash message for success
-        res.redirect('/login'); // Redirect to login after successful registration
+        res.redirect('/login'); // redicrects user to login
 
     } catch (err) {
         console.error("Registration Database Error:", err);
@@ -100,7 +97,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// POST /login (Handle Login Submission)
+// POST /login Login 
 router.post('/login', async (req, res) => {
     const { emailOrUsername, password } = req.body;
     let errors = [];
@@ -141,7 +138,7 @@ router.post('/login', async (req, res) => {
             _id: user._id,
             username: user.username,
             email: user.email,
-            role: user.role // Store role in session
+            role: user.role // Store role 
         };
         console.log('Session created:', req.session);
 
@@ -153,17 +150,17 @@ router.post('/login', async (req, res) => {
                 return res.status(500).render('login', { errors, emailOrUsername });
             }
 
-            // === MODIFIED REDIRECT LOGIC ===
+            // === REDIRECT LOGIC ===
             if (user.role === 'admin') {
                 console.log(`Redirecting admin user ${user.username} to /admin/found`);
-                // Redirect admins to their dashboard (adjust path if needed)
-                res.redirect('/admin/found');
+                // Redirect admins to their dashboard 
+                res.redirect('/dashboard');
             } else {
                  // Redirect normal users to the lost items page
                 console.log(`Redirecting user ${user.username} to /lost-items`);
-                res.redirect('/lost-items'); // <-- Changed redirect for 'user' role
+                res.redirect('/lost-items'); 
             }
-            // ==============================
+            
         });
 
     } catch (err) {
@@ -173,23 +170,23 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// GET /lost-items (Example route for users)
-// Make sure this route exists and is protected if necessary
+// GET /lost-items 
+
 router.get('/lost-items', isAuthenticated, async (req, res) => {
     try {
         // Example: Fetch items relevant to the user or all items
         // const items = await Item.find({ status: 'lost' }); // Assuming Item model exists
-        res.render('lost-items', { /* pass items data if needed */ }); // Render the user's page
+        res.render('lost-items', {  }); 
     } catch(err) {
         console.error("Error fetching lost items:", err);
         res.status(500).send("Error loading page.");
     }
 });
 
-// GET /dashboard (Example route for a generic user dashboard if needed)
-// You might not need this if users go straight to /lost-items
+// GET /dashboard 
+// different dashboard for user or? this might not be needed if goes straight to lost items page
 router.get('/dashboard', isAuthenticated, (req, res) => {
-    // Render a generic user dashboard if you have one
+    // Render a generic user dashboard if one exists
     res.render('dashboard', { username: req.session.user.username });
 });
 
@@ -208,5 +205,5 @@ router.get('/logout', (req, res, next) => {
 });
 
 
-// --- Export Router ---
+
 module.exports = router;
