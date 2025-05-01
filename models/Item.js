@@ -1,43 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const itemSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     description: String,
     image: String,
     category: {
-        type: String,
-        enum: ['Electronics', 'Clothing', 'Accessories', 'Books', 'Other'],
-        required: true,
+      type: String,
+      enum: ["Electronics", "Clothing", "Accessories", "Books", "Other"],
+      required: true,
     },
     location: String,
     date: {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: Date.now,
     },
     status: {
-        type: String,
-        enum: ['Lost', 'Found'],
-        required: true,
+      type: String,
+      enum: ["Lost", "Found"],
+      required: true,
     },
     contactPerson: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    }, { timestamps: true});
+  },
+  { timestamps: true }
+);
 
 //Automatically set contact person to an admin user
-itemSchema.pre('save', async function(next) {
-    if (!this.contactPerson) {
-        const adminUser = await mongoose.model('User').findOne({ role: 'admin' });
-        if (adminUser) {
-            this.contactPerson = adminUser._id;
-        }
+itemSchema.pre("save", async function (next) {
+  if (!this.contactPerson) {
+    const adminUser = await mongoose.model("User").findOne({ role: "admin" });
+    if (adminUser) {
+      this.contactPerson = adminUser._id;
     }
-    next(); 
+  }
+  next();
 });
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model("Item", itemSchema);
