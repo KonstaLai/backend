@@ -16,7 +16,7 @@ const isAuthenticated = (req, res, next) => {
 const isAdmin = (req, res, next) => {
   try {
     if (req.session && req.session.user && req.session.user.role === "admin") {
-        // res.redirect("/admin/");
+         res.redirect("dashboard");
       return next();
     }
      // Redirect to home page if not admin

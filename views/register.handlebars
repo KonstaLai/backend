@@ -2,11 +2,19 @@
     <h2 class="form-title">Register</h2>
 
     {{#if errors}}
-    {{#each errors}}
-    <div class="alert alert-danger">
-        {{this.msg}}
-    </div>
-    {{/each}}
+        {{#each errors}}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{this.msg}}
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{/each}}
+    {{/if}}
+
+    {{#if success_msg}}
+         <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{success_msg}}
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
     {{/if}}
 
     <form action="/register" method="POST">
@@ -26,9 +34,8 @@
             <label for="confirmPassword" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Register</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
     </form>
     <div class="text-center mt-3">
-        Already have an account? <a href="/login">Login</a>
-    </div>
+        </div>
 </div>

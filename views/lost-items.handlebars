@@ -1,0 +1,24 @@
+<div class="lost-items-container">
+    <h2>Lost Items</h2>
+    {{#if lostItems.length}}
+        <ul class="lost-items-list">
+            {{#each lostItems}}
+                <li class="lost-item">
+                    <h3 class="item-name">{{name}}</h3>
+                    <p class="item-description">Description: {{description}}</p>
+                    <p class="item-location">Location: {{location}}</p>
+                    <p class="item-date">Date: {{formatDate date}}</p>  
+                    <p class="item-reporter">Reported by: {{contactPerson.username}} ({{contactPerson.email}})</p>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p class="no-items">This is to later on display all reported items</p>
+    {{/if}}
+</div>
+
+<script>
+ Handlebars.registerHelper('formatDate', function(date) {
+    return moment(date).format('MMMM Do, h:mm a');
+  });
+</script>
