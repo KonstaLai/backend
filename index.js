@@ -2,7 +2,7 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 require("dotenv").config();
 const helpers = require("./helpers")
-const multer = require("multer");
+
 
 const exphbs = require("express-handlebars");
 
@@ -36,6 +36,7 @@ setupSession(app);
 const adminRoutes = require("./routes/admin");
 const homeRoutes = require("./routes/home");
 const authRoutes = require("./routes/auth");
+const usersRoutes = require("./routes/users");
 
 
 
@@ -43,6 +44,7 @@ const authRoutes = require("./routes/auth");
 app.use("/admin", adminRoutes);
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
 
 
 
