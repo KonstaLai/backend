@@ -15,6 +15,7 @@ router.get("/", isAuthenticated, isUser, async (req, res) => {
     res.render("Userdashboard", {
       layout: "users",
       title: "User Dashboard",
+      user: req.session.user.username,
       items,
       currentYear: new Date().getFullYear(),
     });

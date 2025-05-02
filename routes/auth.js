@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
         // user session
         req.session.user = {
             id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
             role: user.role,    
         };
@@ -118,6 +118,21 @@ router.post('/login', async (req, res) => {
             message: 'Internal Server Error' 
         });
     }
+});
+
+
+
+// GET logout route
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).json({ 
+                message: 'Internal Server Error' 
+            });
+        }
+        res.redirect('/login');
+    });
 });
 
 

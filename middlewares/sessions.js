@@ -19,6 +19,7 @@ function setupSession(app) {
     }));
 
     app.use((req, res, next) => {
+        res.locals.user = req.session.user
         res.locals.isAdmin = req.session.user && req.session.user.role === 'admin';
         next();
     }   );
