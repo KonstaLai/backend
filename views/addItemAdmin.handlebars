@@ -1,0 +1,129 @@
+<div class="admin-form-container">
+  <h1>Add New Lost Item</h1>
+  
+  {{#if messages.error}}
+    <div class="alert alert-danger">
+      {{messages.error}}
+    </div>
+  {{/if}}
+  
+  <form action="/admin/items/add" method="POST" class="item-form" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Item Name</label>
+      <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category" name="category" class="form-control" required>
+        <option value="">Select a category</option>
+        {{#each categories}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" name="status" class="form-control" required>
+        <option value="">Select status</option>
+        {{#each statuses}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="image-upload">Item Image</label>
+      <div class="image-upload-options">
+        <div class="upload-option">
+          <input type="radio" id="upload-choice" name="imageSource" value="upload" checked>
+          <label for="upload-choice">Upload from device</label>
+          <input type="file" id="image-upload" name="imageUpload" accept="image/*" class="upload-input">
+        </div>
+        <div class="upload-option">
+          <input type="radio" id="url-choice" name="imageSource" value="url">
+          <label for="url-choice">Use image URL</label>
+          <input type="text" id="image-url" name="imageUrl" class="url-input" placeholder="Paste image URL" disabled>
+        </div>
+      </div>
+      <div class="image-preview" id="image-preview">
+        <p>No image selected</p>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Add Item</button>
+      <a href="/admin" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Toggle between upload and URL inputs
+  document.querySelectorAll('input[name="imageSource"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const uploadInput = document.querySelector('.upload-input');
+      const urlInput = document.querySelector('.url-input');
+      
+      if (this.value === 'upload') {
+        uploadInput.disabled = false;
+        urlInput.disabled = true;
+        urlInput.value = '';
+      } else {
+        uploadInput.disabled = true;
+        urlInput.disabled = false;
+      }
+    });
+  });
+
+  // Image preview for file upload
+  document.getElementById('image-upload').addEventListener('change', function(e) {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+    
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '200px';
+        preview.innerHTML = '';
+        preview.appendChild(img);
+      }
+      
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  // Image preview for URL
+  document.getElementById('image-url').addEventListener('input', function(e) {
+    const preview = document.getElementById('image-preview');
+    
+    if (this.value) {
+      preview.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = this.value;
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '200px';
+      img.onerror = function() {
+        preview.innerHTML = '<p>Could not load image from URL</p>';
+      };
+      preview.appendChild(img);
+    } else {
+      preview.innerHTML = '<p>No image selected</p>';
+    }
+  });
+</script>

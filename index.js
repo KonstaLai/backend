@@ -1,7 +1,8 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 require("dotenv").config();
-const session = require("express-session");
+const helpers = require("./helpers")
+const multer = require("multer");
 
 const exphbs = require("express-handlebars");
 
@@ -16,7 +17,8 @@ const app = express();
 app.engine(
   "handlebars",
   exphbs.engine({
-    defaultLayout: "main"
+    defaultLayout: "main",
+    helpers: helpers,
   })
 );
 app.set("view engine", "handlebars");
@@ -33,12 +35,14 @@ setupSession(app);
 //Routes
 const adminRoutes = require("./routes/admin");
 const homeRoutes = require("./routes/home");
+const authRoutes = require("./routes/auth");
 
 
 
 // use routes
 app.use("/admin", adminRoutes);
 app.use("/", homeRoutes);
+app.use("/auth", authRoutes);
 
 
 

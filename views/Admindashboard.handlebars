@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} | Admin Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        {{> admin-css}}
+    </style>
+</head>
+<body>
+    <main class="admin-container">
+
+        
+        <h1 class="dashboard-title">{{title}}</h1>
+
+        {{#if items.length}}
+            <div class="items-grid">
+                {{#each items}}
+                    <div class="item-card">
+                        {{#if this.image}}
+                            <div class="card-image">
+                                <img src="{{this.image}}" alt="{{this.name}}" onerror="this.src='/images/default-item.jpg'">
+                            </div>
+                        {{else}}
+                            <div class="card-image">
+                                <img src="/images/default-item.jpg" alt="Default item image">
+                            </div>
+                        {{/if}}
+                        
+                        <div class="card-content">
+                            <h3>{{this.name}}</h3>
+                            
+                            <div class="card-details">
+                                <p><i class="fas fa-info-circle"></i> {{this.description}}</p>
+                                <p><i class="fas fa-tag"></i> {{this.category}}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> {{this.location}}</p>
+                                <p><i class="far fa-calendar"></i> {{formatDate this.date}}</p>
+                                <p><i class="fas fa-user"></i> Contact: {{this.contactPerson.role}}</p>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <a href="/admin/items/update/{{this._id}}" class="btn-edit">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="/admin/items/delete/{{this._id}}" method="POST" class="delete-form">
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this item?')">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        {{else}}
+            <div class="no-items">
+                {{#if searchQuery}}
+                    <i class="far fa-folder-open"></i>
+                    <p>No items found matching "{{searchQuery}}"</p>
+                    <a href="/admin" class="btn-view-all">View All Items</a>
+                {{else}}
+                    <i class="far fa-folder-open"></i>
+                    <p>No items found in the database</p>
+                    <a href="/admin/items/add" class="btn-add">
+                        <i class="fas fa-plus"></i> Add New Item
+                    </a>
+                {{/if}}
+            </div>
+        {{/if}}
+    </main>
+
+    <script>
+        // Confirm before delete
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                if (!confirm('Are you sure you want to delete this item permanently?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+        
+        // Clear search functionality
+        document.querySelector('.clear-search')?.addEventListener('click', function(e) {
+            document.querySelector('.search-input').value = '';
+        });
+        
+        // Focus search input when slash key is pressed
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                e.preventDefault();
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
