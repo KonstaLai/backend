@@ -1,8 +1,65 @@
 const express = require('express');
 const router = express.Router();
-const { redirectToAdmin } = require('../middlewares/authMiddleware');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+
+
+
+// GET registration page
+router.post('/register', async (req, res) => {
+    try {
+        const { username, email, password, confirmPassword } = req.body;
+
+        if (!username || !email || !password || !confirmPassword) {
+            return res.status(400).render('register', { 
+                message: 'Please fill in all fields',
+                username,
+                email 
+            });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).render('register', { 
+                message: 'Passwords do not match',
+                username,
+                email 
+            });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).render('register', { 
+                message: 'Email already exists',
+                username
+            });
+        }
+
+
+        // Create new user
+        const newUser = new User({
+            username,
+            email,
+            password
+        });
+        await newUser.save();
+        // Redirect to login page after successful registration
+        res.redirect('/login');
+    } catch (error) {
+        console.error('Error in registration:', error);
+        res.status(500).render('register', { 
+            message: 'Internal Server Error' 
+        });
+    }
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -38,24 +95,44 @@ router.post('/login', async (req, res) => {
         // user session
         req.session.user = {
             id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
             role: user.role,    
         };
 
         req.session.save();
 
-
-        //redirect to homepage if user is not admin
-        redirectToAdmin(req, res, () => {
-            res.redirect('/');
-        });
+        if (user.role === 'admin') {
+            res.redirect('/admin');
+        }
+        else if (user.role === 'user') {
+            res.redirect('/users');
+        } else {
+            return res.status(403).json({ 
+                message: 'You do not have permission to access this page' 
+            });
+        };
     } catch (error) {
         console.error('Error in login:', error);
         res.status(500).json({ 
             message: 'Internal Server Error' 
         });
     }
+});
+
+
+
+// GET logout route
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).json({ 
+                message: 'Internal Server Error' 
+            });
+        }
+        res.redirect('/login');
+    });
 });
 
 
