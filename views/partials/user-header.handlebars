@@ -4,7 +4,7 @@
       <a href="/users/" class="admin-brand">Lost & Found</a>
       
       <div class="search-container">
-        <form action="/user" method="GET" class="search-form">
+        <form action="/users/search" method="GET" class="search-form">
           <input 
             type="text" 
             name="search" 
@@ -16,7 +16,7 @@
             <i class="fas fa-search"></i>
           </button>
           {{#if searchQuery}}
-          <a href="/user" class="clear-search">
+          <a href="/users" class="clear-search">
             <i class="fas fa-times"></i>
           </a>
           {{/if}}
@@ -24,7 +24,7 @@
       </div>
       
       <div class="admin-nav-links">
-        <a href="/admin/items/add" class="nav-link">
+        <a href="/users/items/add" class="nav-link">
           <i class="fas fa-plus"></i> Add Item
         </a>
         <a href="/auth/logout" class="nav-link">

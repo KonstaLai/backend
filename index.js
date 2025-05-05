@@ -9,7 +9,7 @@ const exphbs = require("express-handlebars");
 
 
 //import routes and middlewares
-const setupSession = require("./middlewares/sessions");
+const { setupSession } = require("./middlewares/sessions");
 
 
 const app = express();
@@ -26,10 +26,12 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
 
 
 //session middleware
 setupSession(app);
+
 
 
 //Routes

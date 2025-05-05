@@ -22,7 +22,7 @@
                     <div class="item-card">
                         {{#if this.image}}
                             <div class="card-image">
-                                <img src="{{this.image}}" alt="{{this.name}}" onerror="this.src='/images/default-item.jpg'">
+                                <img src="{{this.image}}" alt="{{this.name}}" onerror="this.src='/images/illustration.png'">
                             </div>
                         {{else}}
                             <div class="card-image">
@@ -41,16 +41,6 @@
                                 <p><i class="fas fa-user"></i> Contact: {{this.contactPerson.role}}</p>
                             </div>
                             
-                            <div class="card-actions">
-                                <a href="/admin/items/update/{{this._id}}" class="btn-edit">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <form action="/admin/items/delete/{{this._id}}" method="POST" class="delete-form">
-                                    <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this item?')">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 {{/each}}
@@ -60,11 +50,11 @@
                 {{#if searchQuery}}
                     <i class="far fa-folder-open"></i>
                     <p>No items found matching "{{searchQuery}}"</p>
-                    <a href="/admin" class="btn-view-all">View All Items</a>
+                    <a href="/users" class="btn-view-all">View All Items</a>
                 {{else}}
                     <i class="far fa-folder-open"></i>
                     <p>No items found in the database</p>
-                    <a href="/admin/items/add" class="btn-add">
+                    <a href="/users/items/add" class="btn-add">
                         <i class="fas fa-plus"></i> Add New Item
                     </a>
                 {{/if}}
